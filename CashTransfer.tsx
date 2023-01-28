@@ -1,7 +1,7 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
-
 import { NativeBaseProvider } from 'native-base';
+
+import Navigator from './src/routes';
 
 interface NativeBaseWrapperProps {
   children: JSX.Element;
@@ -15,9 +15,7 @@ const NativeBaseWrapper = ({
 
 const CashTransfer = (): JSX.Element => (
   <NativeBaseWrapper>
-    <SafeAreaView>
-      <Text>Cash transfer, ready to go?</Text>
-    </SafeAreaView>
+    <Navigator />
   </NativeBaseWrapper>
 );
 
