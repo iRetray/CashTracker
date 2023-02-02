@@ -8,9 +8,10 @@ import {
   Avatar,
   HStack,
   Divider,
-  Icon,
 } from 'native-base';
 import Layout from '../../layout';
+
+import Icon from 'react-native-vector-icons/Feather';
 
 import { HomeProps } from './interfaces';
 import { formatCurrency } from '../../utils';
@@ -61,6 +62,18 @@ export const Home = ({ navigation }: HomeProps): JSX.Element => (
         name="Efectivo"
         amount={520000}
       />
+      <Button
+        leftIcon={<Icon name="edit" size={20} color="#fff" />}
+        marginTop={10}
+        fontSize={20}
+        backgroundColor="black"
+        rounded="2xl"
+        onPress={() => navigation.navigate('FirstPage')}
+      >
+        Actualizar
+      </Button>
+      {/* Do the integration to icons in Android (iOS ready) */}
+      {/* https://github.com/oblador/react-native-vector-icons#examples */}
     </View>
     <Button marginTop={10} onPress={() => navigation.navigate('FirstPage')}>
       Ir a pagina
