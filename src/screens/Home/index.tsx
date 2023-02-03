@@ -68,14 +68,14 @@ export const Home = ({ navigation }: HomeProps): JSX.Element => (
         fontSize={20}
         backgroundColor="black"
         rounded="2xl"
-        onPress={() => navigation.navigate('FirstPage')}
+        onPress={() => navigation.navigate('Detail')}
       >
         Actualizar
       </Button>
       {/* Do the integration to icons in Android (iOS ready) */}
       {/* https://github.com/oblador/react-native-vector-icons#examples */}
     </View>
-    <Button marginTop={10} onPress={() => navigation.navigate('FirstPage')}>
+    <Button marginTop={10} onPress={() => navigation.navigate('Detail')}>
       Ir a pagina
     </Button>
   </Layout>

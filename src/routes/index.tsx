@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useEffect } from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -9,17 +9,13 @@ import {
 } from '@react-navigation/native';
 
 import { Colors } from '../constants';
-import { Home } from '../screens';
+import { Home, Detail } from '../screens';
+import currentDetail from '../data/Detail'
 
 import { RoutesParamsScreenList } from './interfaces';
 
 export const Stack = createNativeStackNavigator<RoutesParamsScreenList>();
 
-const FirstPage = (): JSX.Element => (
-  <View>
-    <Text>Primera pagina</Text>
-  </View>
-);
 
 const myTheme: Theme = {
   ...DefaultTheme,
@@ -29,17 +25,35 @@ const myTheme: Theme = {
   },
 };
 
-const Navigator = (): JSX.Element => (
-  <NavigationContainer theme={myTheme}>
+
+
+const Navigator = (): JSX.Element => {
+
+  useEffect(() => {
+    storeData()
+  }, [])
+  
+  const storeData = async () => {
+    const jsonValue = JSON.stringify(currentDetail)
+
+    try {
+      await AsyncStorage.setItem('@detail', jsonValue)
+    } catch (e) {
+      // saving error
+    }
+    
+  }
+
+  return <NavigationContainer theme={myTheme}>
     <Stack.Navigator
       id="RootStack"
       initialRouteName="Home"
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="FirstPage" component={FirstPage} />
+      <Stack.Screen name="Detail" component={Detail} />
     </Stack.Navigator>
   </NavigationContainer>
-);
+};
 
 export default Navigator;
