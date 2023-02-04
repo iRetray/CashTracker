@@ -10,12 +10,11 @@ import {
 
 import { Colors } from '../constants';
 import { Home, Detail } from '../screens';
-import currentDetail from '../data/Detail'
+import currentDetail from '../data/Detail';
 
 import { RoutesParamsScreenList } from './interfaces';
 
 export const Stack = createNativeStackNavigator<RoutesParamsScreenList>();
-
 
 const myTheme: Theme = {
   ...DefaultTheme,
@@ -25,35 +24,33 @@ const myTheme: Theme = {
   },
 };
 
-
-
 const Navigator = (): JSX.Element => {
-
   useEffect(() => {
-    storeData()
-  }, [])
-  
+    storeData();
+  }, []);
+
   const storeData = async () => {
-    const jsonValue = JSON.stringify(currentDetail)
+    const jsonValue = JSON.stringify(currentDetail);
 
     try {
-      await AsyncStorage.setItem('@detail', jsonValue)
+      await AsyncStorage.setItem('@detail', jsonValue);
     } catch (e) {
       // saving error
     }
-    
-  }
+  };
 
-  return <NavigationContainer theme={myTheme}>
-    <Stack.Navigator
-      id="RootStack"
-      initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Detail" component={Detail} />
-    </Stack.Navigator>
-  </NavigationContainer>
+  return (
+    <NavigationContainer theme={myTheme}>
+      <Stack.Navigator
+        id="RootStack"
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Detail" component={Detail} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default Navigator;

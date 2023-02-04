@@ -1,4 +1,3 @@
 export interface DetailProps {
-    navigation: any;
-  }
-  
+  navigation: any;
+}
