@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -9,10 +8,11 @@ import {
 } from '@react-navigation/native';
 
 import { Colors } from '../constants';
-import { Home, Detail } from '../screens';
+import { Home, Detail, EditCashComposition } from '../screens';
 import currentDetail from '../data/Detail';
 
 import { RoutesParamsScreenList } from './interfaces';
+import { LocalStorage } from '../services';
 
 export const Stack = createNativeStackNavigator<RoutesParamsScreenList>();
 
@@ -25,18 +25,13 @@ const myTheme: Theme = {
 };
 
 const Navigator = (): JSX.Element => {
+  /* Why set random data at app's start? */
   useEffect(() => {
     storeData();
   }, []);
 
-  const storeData = async () => {
-    const jsonValue = JSON.stringify(currentDetail);
-
-    try {
-      await AsyncStorage.setItem('@detail', jsonValue);
-    } catch (e) {
-      // saving error
-    }
+  const storeData = (): void => {
+    LocalStorage.setItem('movementsDetail', currentDetail);
   };
 
   return (
@@ -47,6 +42,10 @@ const Navigator = (): JSX.Element => {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="EditCashComposition"
+          component={EditCashComposition}
+        />
         <Stack.Screen name="Detail" component={Detail} />
       </Stack.Navigator>
     </NavigationContainer>

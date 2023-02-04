@@ -7,14 +7,13 @@ import {
   ScrollView,
   Spacer,
   Text,
-  View,
   VStack,
 } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Layout from '../../layout';
 import { DetailProps } from './interfaces';
+import { LocalStorage } from '../../services';
 
 export const Detail = ({ navigation }: DetailProps): JSX.Element => {
   const [detailList, setDetailList] = useState<any[]>([]);
@@ -24,10 +23,9 @@ export const Detail = ({ navigation }: DetailProps): JSX.Element => {
 
   const getData = async () => {
     try {
-      const value = await AsyncStorage.getItem('@detail');
+      const value = await LocalStorage.getItem('movementsDetail');
       if (value !== null) {
-        setDetailList(JSON.parse(value));
-        console.log('value**+++++', JSON.parse(value));
+        setDetailList(value);
       }
     } catch (e) {
       // error reading value

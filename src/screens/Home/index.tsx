@@ -8,6 +8,7 @@ import {
   Avatar,
   HStack,
   Divider,
+  Box,
 } from 'native-base';
 import Layout from '../../layout';
 
@@ -35,10 +36,13 @@ export const Home = ({ navigation }: HomeProps): JSX.Element => (
     </HStack>
     <View
       marginTop={5}
+      marginBottom={5}
       shadow="9"
       bgColor="white"
       padding={3}
+      paddingBottom={7}
       borderRadius={10}
+      position="relative"
     >
       <Text fontSize="sm" marginBottom={-2} fontWeight="light">
         Dinero total
@@ -62,21 +66,24 @@ export const Home = ({ navigation }: HomeProps): JSX.Element => (
         name="Efectivo"
         amount={520000}
       />
-      <Button
-        leftIcon={<Icon name="edit" size={20} color="#fff" />}
-        marginTop={10}
-        fontSize={20}
-        backgroundColor="black"
-        rounded="2xl"
-        onPress={() => navigation.navigate('Detail')}
-      >
-        Actualizar
-      </Button>
+      <Box alignItems="center" shadow="5">
+        <Button
+          position="absolute"
+          bottom="-45"
+          leftIcon={<Icon name="edit" size={20} color="#fff" />}
+          marginTop={3}
+          onPress={() => navigation.navigate('EditCashComposition')}
+        >
+          Actualizar
+        </Button>
+      </Box>
       {/* Do the integration to icons in Android (iOS ready) */}
       {/* https://github.com/oblador/react-native-vector-icons#examples */}
     </View>
-    <Button marginTop={10} onPress={() => navigation.navigate('Detail')}>
-      Ir a pagina
-    </Button>
+    <Box alignItems="center">
+      <Button marginTop={10} onPress={() => navigation.navigate('Detail')}>
+        Detalles de movimientos
+      </Button>
+    </Box>
   </Layout>
 );
