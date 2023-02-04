@@ -14,6 +14,7 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../../layout';
 import { DetailProps } from './interfaces';
 import { LocalStorage } from '../../services';
+import { Header } from '../../components';
 
 export const Detail = ({ navigation }: DetailProps): JSX.Element => {
   const [detailList, setDetailList] = useState<any[]>([]);
@@ -34,9 +35,11 @@ export const Detail = ({ navigation }: DetailProps): JSX.Element => {
 
   return (
     <Layout>
-      <Heading fontSize="xl" p="4" pb="3">
-        Detail
-      </Heading>
+      <Header
+        title="Detalle"
+        subtitle="de transacciones"
+        onPressBack={() => navigation.goBack()}
+      />
       <ScrollView>
         <FlatList
           data={detailList}

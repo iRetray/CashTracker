@@ -3,6 +3,8 @@ import { extendTheme, NativeBaseProvider } from 'native-base';
 
 import Navigator from './src/routes';
 
+/* TODO: Set empty values in localstorage for stuff data */
+
 const theme = extendTheme({
   components: {
     Button: {
@@ -13,6 +15,15 @@ const theme = extendTheme({
         paddingRight: 5,
         paddingLeft: 5,
         _text: { fontWeight: 'bold', fontSize: 20 },
+      },
+    },
+    Input: {
+      defaultProps: {
+        size: 'lg',
+        focusOutlineColor: 'coolGray.900',
+        placeholderTextColor: 'coolGray.400',
+        color: 'coolGray.900',
+        backgroundColor: 'coolGray.100',
       },
     },
   },
