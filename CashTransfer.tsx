@@ -1,9 +1,8 @@
 import React from 'react';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 
+import { Provider } from './src/context';
 import Navigator from './src/routes';
-
-/* TODO: Set empty values in localstorage for stuff data */
 
 const theme = extendTheme({
   components: {
@@ -41,7 +40,9 @@ const NativeBaseWrapper = ({
 
 const CashTransfer = (): JSX.Element => (
   <NativeBaseWrapper>
-    <Navigator />
+    <Provider>
+      <Navigator />
+    </Provider>
   </NativeBaseWrapper>
 );
 

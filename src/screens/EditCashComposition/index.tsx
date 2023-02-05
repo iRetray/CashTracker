@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  Box,
-  Button,
   Divider,
   Heading,
   HStack,
@@ -10,55 +8,53 @@ import {
 } from 'native-base';
 
 import Layout from '../../layout';
-import { EditCashCompositionProps } from './interfaces';
 import { Header } from '../../components';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { EditCashCompositionProps } from './interfaces';
 
 import EditableCategory from './EditableCategory';
 import AddableCategory from './AddableCategory';
+import EmptySection from './EmptySection';
 
-import { categories } from '../../data';
+import {
+  activateCategory,
+  disableCategory,
+  updateCashAmounts,
+} from '../../context/actions';
+import { useCashContext } from '../../context';
 
-import { CategoryForUser } from '../../types';
-import { LocalStorage } from '../../services';
+const URIByFileName: any = {
+  'nequi.png': require(`../../assets/images/nequi.png`),
+  'bbva.png': require(`../../assets/images/bbva.png`),
+  'bill.png': require(`../../assets/images/bill.png`),
+};
 
 export const EditCashComposition = ({
   navigation,
 }: EditCashCompositionProps): JSX.Element => {
-  const [categoriesList, setCategoriesList] = useState<CategoryForUser[]>([]);
+  const { state, dispatch } = useCashContext();
 
-  useEffect(() => {
-    getUserCashComposition();
-  }, []);
-
-  const getUserCashComposition = (): void => {
-    LocalStorage.getItem('cashComposition').then(userCashComposition => {
-      const mixedCategories: CategoryForUser | any[] = categories.map(
-        category => {
-          const userCategory = userCashComposition.find(
-            ({ name }: any) => name === category.name,
-          );
-          return userCategory
-            ? { ...category, ...userCategory }
-            : { ...category, cash: 0, isUsed: false };
-        },
-      );
-      console.log('mixed, ', mixedCategories);
-      setCategoriesList(mixedCategories);
-    });
+  const handleUpdate = (
+    categoryName: string,
+    updatedCashValue: number,
+  ): void => {
+    dispatch(
+      updateCashAmounts({
+        usedUserCategories: state.userCategories.used.map(category =>
+          category.name === categoryName
+            ? { ...category, cash: updatedCashValue }
+            : category,
+        ),
+      }),
+    );
   };
 
-  const handleUpdate = (categoryName: string, updatedValue: number): void => {
-    console.log(categoryName, ' : ', updatedValue);
+  const handleDelete = (categoryName: string): void => {
+    dispatch(disableCategory({ categoryName }));
   };
 
-  const handleDelete = (serviceName: string): void => {
-    console.log('Delete Category: ', serviceName);
-  };
-
-  const handleAddCategory = (serviceName: string): void => {
-    console.log('Add Category: ', serviceName);
+  const handleAddCategory = (categoryName: string): void => {
+    dispatch(activateCategory({ categoryName }));
   };
 
   return (
@@ -69,58 +65,44 @@ export const EditCashComposition = ({
         onPressBack={() => navigation.goBack()}
       />
       <KeyboardAvoidingView>
-        {categoriesList
-          ?.filter(({ isUsed }) => isUsed)
-          .map(category => (
-            <EditableCategory
-              imageSource={require(`../../assets/images/nequi.png`)}
-              name={category.name}
-              initialValue={category.cash}
-              onUpdate={handleUpdate}
-              onDelete={handleDelete}
-            />
-          ))}
-        <EditableCategory
-          imageSource={require('../../assets/images/nequi.png')}
-          name="Nequi"
-          initialValue={2500000}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
-        />
-        <EditableCategory
-          imageSource={require('../../assets/images/bill.png')}
-          name="Efectivo"
-          initialValue={640000}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
-        />
-        <Box alignItems="center" shadow="5">
-          <Button
-            leftIcon={<Icon name="save" size={20} color="#fff" />}
-            marginTop={3}
-            onPress={() => null}
-          >
-            Guardar composición
-          </Button>
-        </Box>
-        <Divider marginTop={10} />
+        {state.userCategories.used.length === 0 && (
+          <EmptySection
+            title="No tienes ninguna categoría"
+            subtitle="Añade una categoría disponible"
+          />
+        )}
+        {state.userCategories.used.map(category => (
+          <EditableCategory
+            key={category.name}
+            imageSource={URIByFileName[category.imageFileName]}
+            name={category.name}
+            initialValue={category.cash}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        ))}
+        <Divider marginTop={5} />
         <Heading size="xl" marginTop={8}>
           Categorías disponibles
         </Heading>
         <Text fontSize="lg" marginTop={-1} marginBottom={4}>
           para añadir a la composición
         </Text>
+        {state.userCategories.avaliable.length === 0 && (
+          <EmptySection
+            title="No tienes categorías disponibles"
+            subtitle="Contáctate con los desarrolladores para añadir una nueva categoría"
+          />
+        )}
         <HStack space={3}>
-          <AddableCategory
-            imageSource={require('../../assets/images/bbva.png')}
-            name="BBVA"
-            onPress={handleAddCategory}
-          />
-          <AddableCategory
-            imageSource={require('../../assets/images/nequi.png')}
-            name="Nequi"
-            onPress={handleAddCategory}
-          />
+          {state.userCategories.avaliable.map(category => (
+            <AddableCategory
+              key={category.name}
+              imageSource={URIByFileName[category.imageFileName]}
+              name={category.name}
+              onPress={handleAddCategory}
+            />
+          ))}
         </HStack>
       </KeyboardAvoidingView>
     </Layout>
