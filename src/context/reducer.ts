@@ -2,10 +2,10 @@ import { InitialState } from './interface';
 
 export const reducer = (state: InitialState, action: any) => {
   switch (action.type) {
-    case ActionName.SET_USER_CATEGORIES:
+    case ActionName.SET_CONTEXT_STATE:
       return {
         ...state,
-        userCategories: action.payload.userCategories,
+        ...action.payload.newContextState,
       };
     case ActionName.ACTIVATE_CATEGORY:
       return {
@@ -51,7 +51,7 @@ export const reducer = (state: InitialState, action: any) => {
 };
 
 export enum ActionName {
-  SET_USER_CATEGORIES = 'SET_USER_CATEGORIES',
+  SET_CONTEXT_STATE = 'SET_CONTEXT_STATE',
   ACTIVATE_CATEGORY = 'ACTIVATE_CATEGORY',
   DISABLE_CATEGORY = 'DISABLE_CATEGORY',
   UPDATE_CASH_AMOUNTS = 'UPDATE_CASH_AMOUNTS',

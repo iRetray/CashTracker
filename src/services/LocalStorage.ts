@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type AvaliableKeys = 'userName' | 'userCategories' | 'movementsDetail';
+/* TODO: migrate everything to context, the context backup auto in storage ;) */
+type AvaliableKeys = 'CashContextState' | 'movementsDetail';
 
 interface LocalStorageInterface {
   setItem: (key: AvaliableKeys, value: any) => Promise<any>;

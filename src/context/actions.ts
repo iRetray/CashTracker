@@ -1,18 +1,16 @@
 import { ActionName } from './reducer';
 
 import { Category } from '../types';
+import { InitialState } from './interface';
 
-export const setUserCategories = ({
-  userCategories,
+export const setContextState = ({
+  newContextState,
 }: {
-  userCategories: {
-    used: Category[] | [];
-    avaliable: Category[] | [];
-  };
+  newContextState: InitialState;
 }) => ({
-  type: ActionName.SET_USER_CATEGORIES,
+  type: ActionName.SET_CONTEXT_STATE,
   payload: {
-    userCategories,
+    newContextState,
   },
 });
 
