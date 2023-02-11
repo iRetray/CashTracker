@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Image, Text, VStack } from 'native-base';
-import { TouchableOpacity } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native';
 
 import { AddableCategoryProps } from './interfaces';
 import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
@@ -9,14 +9,15 @@ import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
 const AddableCategory = ({
   imageSource,
   name,
+  isFirstRender,
   onPress,
 }: AddableCategoryProps): JSX.Element => (
   <Animated.View
-    entering={ZoomIn}
+    entering={ZoomIn.delay(isFirstRender ? 250 : 0)}
     exiting={ZoomOut}
     layout={Layout.springify().delay(300)}
   >
-    <TouchableOpacity onPress={() => onPress(name)}>
+    <TouchableWithoutFeedback onPress={() => onPress(name)}>
       <VStack
         justifyContent="center"
         alignItems="center"
@@ -37,7 +38,7 @@ const AddableCategory = ({
           {name}
         </Text>
       </VStack>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   </Animated.View>
 );
 

@@ -26,6 +26,7 @@ const EditableCategory = ({
   imageSource,
   name,
   initialValue,
+  isFirstRender,
   onUpdate,
   onDelete,
 }: EditableCategoryProps): JSX.Element => {
@@ -40,7 +41,7 @@ const EditableCategory = ({
 
   return (
     <Animated.View
-      entering={SlideInLeft}
+      entering={SlideInLeft.delay(isFirstRender ? 250 : 0)}
       exiting={SlideOutLeft}
       layout={Layout.springify().delay(300)}
     >

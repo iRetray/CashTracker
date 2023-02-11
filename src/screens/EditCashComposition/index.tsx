@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Divider,
   Heading,
@@ -33,6 +33,17 @@ const URIByFileName: any = {
 export const EditCashComposition = ({
   navigation,
 }: EditCashCompositionProps): JSX.Element => {
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsFirstRender(true);
+    }, 500);
+    return () => {
+      setIsFirstRender(true);
+    };
+  }, []);
+
   const { state, dispatch } = useCashContext();
 
   const handleUpdate = (
@@ -69,6 +80,7 @@ export const EditCashComposition = ({
         <View>
           {state.userCategories.used.length === 0 && (
             <EmptySection
+              isFirstRender={isFirstRender}
               title="No tienes ninguna categoría"
               subtitle="Añade una categoría disponible"
             />
@@ -76,6 +88,7 @@ export const EditCashComposition = ({
           {state.userCategories.used.map(category => (
             <EditableCategory
               key={category.name}
+              isFirstRender={isFirstRender}
               imageSource={URIByFileName[category.imageFileName]}
               name={category.name}
               initialValue={category.cash}
@@ -93,6 +106,7 @@ export const EditCashComposition = ({
         </Text>
         {state.userCategories.avaliable.length === 0 && (
           <EmptySection
+            isFirstRender={isFirstRender}
             title="No tienes categorías disponibles"
             subtitle="Contáctate con los desarrolladores para añadir una nueva categoría"
           />
@@ -101,6 +115,7 @@ export const EditCashComposition = ({
           {state.userCategories.avaliable.map(category => (
             <AddableCategory
               key={category.name}
+              isFirstRender={isFirstRender}
               imageSource={URIByFileName[category.imageFileName]}
               name={category.name}
               onPress={handleAddCategory}

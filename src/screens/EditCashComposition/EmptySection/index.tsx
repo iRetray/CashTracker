@@ -5,11 +5,16 @@ import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
 interface EmptySectionProps {
   title: string;
   subtitle: string;
+  isFirstRender: boolean;
 }
 
-const EmptySection = ({ title, subtitle }: EmptySectionProps): JSX.Element => (
+const EmptySection = ({
+  title,
+  subtitle,
+  isFirstRender,
+}: EmptySectionProps): JSX.Element => (
   <Animated.View
-    entering={ZoomIn}
+    entering={ZoomIn.delay(isFirstRender ? 250 : 0)}
     exiting={ZoomOut}
     layout={Layout.springify().delay(300)}
   >
