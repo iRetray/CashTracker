@@ -18,11 +18,9 @@ const getInitialState = (): Promise<InitialState> =>
   new Promise(resolve => {
     LocalStorage.getItem('CashContextState')
       .then(CashContextState => {
-        console.log('resolve, ', JSON.stringify(CashContextState));
         resolve(CashContextState);
       })
       .catch(() => {
-        console.log('resolve default');
         resolve({
           userCategories: {
             used: [],
@@ -63,14 +61,7 @@ export const Provider = ({ children }: ProviderProps) => {
 
   const saveStateInStorage = (): void => {
     setTimeout(() => {
-      if (state.hasOwnProperty('_j')) {
-        console.log('tiene el h');
-      } else {
-        console.log('NO tiene el h');
-      }
-      LocalStorage.setItem('CashContextState', state).then(() =>
-        console.log('saved in storage!', JSON.stringify(state)),
-      );
+      LocalStorage.setItem('CashContextState', state);
     }, 500);
   };
 
