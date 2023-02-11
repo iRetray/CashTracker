@@ -5,6 +5,7 @@ import {
   HStack,
   KeyboardAvoidingView,
   Text,
+  View,
 } from 'native-base';
 
 import Layout from '../../layout';
@@ -65,22 +66,24 @@ export const EditCashComposition = ({
         onPressBack={() => navigation.goBack()}
       />
       <KeyboardAvoidingView>
-        {state.userCategories.used.length === 0 && (
-          <EmptySection
-            title="No tienes ninguna categoría"
-            subtitle="Añade una categoría disponible"
-          />
-        )}
-        {state.userCategories.used.map(category => (
-          <EditableCategory
-            key={category.name}
-            imageSource={URIByFileName[category.imageFileName]}
-            name={category.name}
-            initialValue={category.cash}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-          />
-        ))}
+        <View>
+          {state.userCategories.used.length === 0 && (
+            <EmptySection
+              title="No tienes ninguna categoría"
+              subtitle="Añade una categoría disponible"
+            />
+          )}
+          {state.userCategories.used.map(category => (
+            <EditableCategory
+              key={category.name}
+              imageSource={URIByFileName[category.imageFileName]}
+              name={category.name}
+              initialValue={category.cash}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+            />
+          ))}
+        </View>
         <Divider marginTop={5} />
         <Heading size="xl" marginTop={8}>
           Categorías disponibles

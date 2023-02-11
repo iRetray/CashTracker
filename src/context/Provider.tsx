@@ -74,13 +74,7 @@ export const Provider = ({ children }: ProviderProps) => {
     }, 500);
   };
 
-  return (
-    <Context.Provider value={value}>
-      {state !== undefined && state.userCategories !== undefined
-        ? children
-        : null}
-    </Context.Provider>
-  );
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 export const useCashContext = () => useContext(Context);
