@@ -3,3 +3,7 @@ export type RoutesParamsScreenList = {
   Detail: undefined;
   EditCashComposition: undefined;
 };
+
+export type RoutesParamsAuthScreenList = {
+  BiometricAuth: undefined;
+};

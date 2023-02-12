@@ -45,6 +45,12 @@ export const reducer = (state: InitialState, action: any) => {
           used: action.payload.usedUserCategories,
         },
       };
+    case ActionName.AUTH_WITH_BIOMETRIC:
+      return {
+        ...state,
+        isBiometricAuthenticated: true,
+      };
+
     default:
       return state;
   }
@@ -55,4 +61,5 @@ export enum ActionName {
   ACTIVATE_CATEGORY = 'ACTIVATE_CATEGORY',
   DISABLE_CATEGORY = 'DISABLE_CATEGORY',
   UPDATE_CASH_AMOUNTS = 'UPDATE_CASH_AMOUNTS',
+  AUTH_WITH_BIOMETRIC = 'AUTH_WITH_BIOMETRIC',
 }

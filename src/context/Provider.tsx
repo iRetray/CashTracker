@@ -22,6 +22,7 @@ const getInitialState = (): Promise<InitialState> =>
       })
       .catch(() => {
         resolve({
+          isBiometricAuthenticated: false,
           userCategories: {
             used: [],
             avaliable: categories,
@@ -31,6 +32,7 @@ const getInitialState = (): Promise<InitialState> =>
   });
 
 const initialState: InitialState = {
+  isBiometricAuthenticated: false,
   userCategories: {
     used: [],
     avaliable: categories,
@@ -55,7 +57,14 @@ export const Provider = ({ children }: ProviderProps) => {
   const getFirstDataFromStorage = (): void => {
     getInitialState().then(newInitialState => {
       setIsSyncWithStorage(true);
-      dispatch(setContextState({ newContextState: newInitialState }));
+      dispatch(
+        setContextState({
+          newContextState: {
+            ...newInitialState,
+            isBiometricAuthenticated: false,
+          },
+        }),
+      );
     });
   };
 

@@ -6,6 +6,7 @@ export interface State {
 }
 
 export interface InitialState {
+  isBiometricAuthenticated: boolean;
   userCategories: {
     used: Category[];
     avaliable: Category[];

@@ -46,3 +46,8 @@ export const updateCashAmounts = ({
     usedUserCategories,
   },
 });
+
+export const authWithBiometric = () => ({
+  type: ActionName.AUTH_WITH_BIOMETRIC,
+  payload: {},
+});

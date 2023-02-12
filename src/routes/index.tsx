@@ -8,13 +8,20 @@ import {
 } from '@react-navigation/native';
 
 import { Colors } from '../constants';
-import { Home, Detail, EditCashComposition } from '../screens';
+import { Home, Detail, EditCashComposition, BiometricAuth } from '../screens';
 import currentDetail from '../data/Detail';
 
-import { RoutesParamsScreenList } from './interfaces';
+import {
+  RoutesParamsScreenList,
+  RoutesParamsAuthScreenList,
+} from './interfaces';
 import { LocalStorage } from '../services';
 
+import { useCashContext } from '../context';
+
 export const Stack = createNativeStackNavigator<RoutesParamsScreenList>();
+export const StackAuth =
+  createNativeStackNavigator<RoutesParamsAuthScreenList>();
 
 const myTheme: Theme = {
   ...DefaultTheme,
@@ -25,6 +32,8 @@ const myTheme: Theme = {
 };
 
 const Navigator = (): JSX.Element => {
+  const { state } = useCashContext();
+
   /* Why set random data at app's start? */
   useEffect(() => {
     storeData();
@@ -36,18 +45,28 @@ const Navigator = (): JSX.Element => {
 
   return (
     <NavigationContainer theme={myTheme}>
-      <Stack.Navigator
-        id="RootStack"
-        initialRouteName="Home"
-        screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
-      >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen
-          name="EditCashComposition"
-          component={EditCashComposition}
-        />
-        <Stack.Screen name="Detail" component={Detail} />
-      </Stack.Navigator>
+      {state.isBiometricAuthenticated ? (
+        <Stack.Navigator
+          id="RootStack"
+          initialRouteName="Home"
+          screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
+        >
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="EditCashComposition"
+            component={EditCashComposition}
+          />
+          <Stack.Screen name="Detail" component={Detail} />
+        </Stack.Navigator>
+      ) : (
+        <StackAuth.Navigator
+          id="AuthStack"
+          initialRouteName="BiometricAuth"
+          screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
+        >
+          <StackAuth.Screen name="BiometricAuth" component={BiometricAuth} />
+        </StackAuth.Navigator>
+      )}
     </NavigationContainer>
   );
 };
