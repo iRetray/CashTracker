@@ -93,4 +93,4 @@ const EditableCategory = ({
     </Animated.View>
   );
 };
-export default EditableCategory;
+export default React.memo(EditableCategory);

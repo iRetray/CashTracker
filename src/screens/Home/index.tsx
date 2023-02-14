@@ -97,13 +97,6 @@ export const Home = ({ navigation }: HomeProps): JSX.Element => {
           </Box>
         </View>
       </Animated.View>
-      {/* <Animated.View entering={ZoomIn.delay(800)}>
-        <Box alignItems="center">
-          <Button marginTop={10} onPress={() => navigation.navigate('Detail')}>
-            Detalles de movimientos
-          </Button>
-        </Box>
-      </Animated.View> */}
     </Layout>
   );
 };

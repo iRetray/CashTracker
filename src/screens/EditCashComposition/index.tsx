@@ -5,7 +5,6 @@ import {
   HStack,
   KeyboardAvoidingView,
   Text,
-  View,
 } from 'native-base';
 
 import Layout from '../../layout';
@@ -23,6 +22,7 @@ import {
   updateCashAmounts,
 } from '../../context/actions';
 import { useCashContext } from '../../context';
+import { FlatList } from 'react-native';
 
 const URIByFileName: any = {
   'nequi.png': require(`../../assets/images/nequi.png`),
@@ -77,26 +77,27 @@ export const EditCashComposition = ({
         onPressBack={() => navigation.goBack()}
       />
       <KeyboardAvoidingView>
-        <View>
-          {state.userCategories.used.length === 0 && (
+        <FlatList
+          data={state.userCategories.used}
+          renderItem={({ item }) => (
+            <EditableCategory
+              key={item.name}
+              isFirstRender={isFirstRender}
+              imageSource={URIByFileName[item.imageFileName]}
+              name={item.name}
+              initialValue={item.cash}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+            />
+          )}
+          ListEmptyComponent={() => (
             <EmptySection
               isFirstRender={isFirstRender}
               title="No tienes ninguna categoría"
               subtitle="Añade una categoría disponible"
             />
           )}
-          {state.userCategories.used.map(category => (
-            <EditableCategory
-              key={category.name}
-              isFirstRender={isFirstRender}
-              imageSource={URIByFileName[category.imageFileName]}
-              name={category.name}
-              initialValue={category.cash}
-              onUpdate={handleUpdate}
-              onDelete={handleDelete}
-            />
-          ))}
-        </View>
+        />
         <Divider marginTop={5} />
         <Heading size="xl" marginTop={8}>
           Categorías disponibles

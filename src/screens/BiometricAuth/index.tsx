@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { TouchableOpacity, View as ReactNativeView } from 'react-native';
 
 import Animated, {
@@ -7,7 +8,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import ReactNativeBiometrics, { BiometryTypes } from 'react-native-biometrics';
+import ReactNativeBiometrics from 'react-native-biometrics';
 
 import { Box, Heading, HStack, Image, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -17,7 +18,8 @@ import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../../constants';
 import { useCashContext } from '../../context';
 import { authWithBiometric } from '../../context/actions';
-import { useEffect, useState } from 'react';
+
+const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
 const DeviceBiometrics = new ReactNativeBiometrics();
 
@@ -52,6 +54,14 @@ export const BiometricAuth = () => {
   };
 
   const fingerPrintStyle = useAnimatedStyle(() => ({
+    color: withRepeat(
+      withSequence(
+        withTiming(Colors.primary.medium, { duration: 500 }),
+        withTiming(Colors.primary.dark, { duration: 500 }),
+      ),
+      -1,
+      true,
+    ),
     transform: [
       {
         scale: withRepeat(
@@ -97,13 +107,11 @@ export const BiometricAuth = () => {
               color={Colors.primary.dark}
             />
           ) : (
-            <Animated.View style={[fingerPrintStyle]}>
-              <Icon
-                name="finger-print-outline"
-                size={75}
-                color={Colors.primary.dark}
-              />
-            </Animated.View>
+            <AnimatedIcon
+              style={[fingerPrintStyle]}
+              name="finger-print-outline"
+              size={75}
+            />
           )}
           <HStack marginTop={5} alignItems="center" justifyContent="center">
             {scanText.type === 'INFO' ? (
